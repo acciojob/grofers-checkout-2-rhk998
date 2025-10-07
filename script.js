@@ -1,31 +1,35 @@
+// Create button dynamically
 const getSumBtn = document.createElement("button");
-getSumBtn.append("Get Total Price");
+getSumBtn.textContent = "Get Total Price";
 document.body.appendChild(getSumBtn);
 
+// Add event listener
 getSumBtn.addEventListener("click", () => {
-  const prices = document.querySelectorAll('[data-ns-test="price"]');
+  const priceCells = document.querySelectorAll('[data-ns-test="prices"]');
   let total = 0;
 
-  prices.forEach(cell => {
-    const value = parseFloat(cell.textContent);
+  priceCells.forEach(cell => {
+    const value = parseFloat(cell.textContent.trim());
     if (!isNaN(value)) {
       total += value;
     }
   });
 
-  // Prevent duplicate total rows
+  // Avoid duplicate total rows
   const existing = document.querySelector('[data-ns-test="grandTotal"]');
   if (existing) {
     existing.textContent = total;
     return;
   }
 
-  const row = document.createElement("tr");
-  const cell = document.createElement("td");
-  cell.colSpan = 2;
-  cell.setAttribute("data-ns-test", "grandTotal");
-  cell.textContent = total;
+  // Create new row
+  const newRow = document.createElement("tr");
+  const totalCell = document.createElement("td");
 
-  row.appendChild(cell);
-  document.querySelector("table").appendChild(row);
+  totalCell.colSpan = 2;
+  totalCell.setAttribute("data-ns-test", "grandTotal");
+  totalCell.textContent = total;
+
+  newRow.appendChild(totalCell);
+  document.getElementById("groceryTable").appendChild(newRow);
 });
