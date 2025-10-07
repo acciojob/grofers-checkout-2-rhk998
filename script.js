@@ -5,7 +5,7 @@ document.body.appendChild(getSumBtn);
 
 // Add event listener
 getSumBtn.addEventListener("click", () => {
-  const priceCells = document.querySelectorAll('[data-ns-test="prices"]');
+  const priceCells = document.querySelectorAll('[data-ns-test="price"]');
   let total = 0;
 
   priceCells.forEach(cell => {
