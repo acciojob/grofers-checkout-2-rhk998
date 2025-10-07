@@ -1,22 +1,31 @@
-const priceElements = document.querySelectorAll('[data-ns-test="price"]');
+const getSumBtn = document.createElement("button");
+getSumBtn.append("Get Total Price");
+document.body.appendChild(getSumBtn);
 
-let total = 0;
-priceElements.forEach(el => {
-  const value = parseFloat(el.textContent);
-  if (!isNaN(value)) {
-    total += value;
+getSumBtn.addEventListener("click", () => {
+  const prices = document.querySelectorAll('[data-ns-test="price"]');
+  let total = 0;
+
+  prices.forEach(cell => {
+    const value = parseFloat(cell.textContent);
+    if (!isNaN(value)) {
+      total += value;
+    }
+  });
+
+  // Prevent duplicate total rows
+  const existing = document.querySelector('[data-ns-test="grandTotal"]');
+  if (existing) {
+    existing.textContent = total;
+    return;
   }
+
+  const row = document.createElement("tr");
+  const cell = document.createElement("td");
+  cell.colSpan = 2;
+  cell.setAttribute("data-ns-test", "grandTotal");
+  cell.textContent = total;
+
+  row.appendChild(cell);
+  document.querySelector("table").appendChild(row);
 });
-
-// Create new row
-const newRow = document.createElement('tr');
-const totalCell = document.createElement('td');
-
-// Span both columns, since it's a single cell in a row
-totalCell.setAttribute('colspan', '2');
-totalCell.setAttribute('data-ns-test', 'grandTotal');
-totalCell.textContent = total;
-
-// Add the cell to row and row to the table
-newRow.appendChild(totalCell);
-document.querySelector('table').appendChild(newRow);
