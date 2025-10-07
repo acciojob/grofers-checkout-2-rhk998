@@ -1,33 +1,25 @@
-const getSumBtn = document.createElement("button");
-getSumBtn.append("Get Total Price");
-document.body.appendChild(getSumBtn);
+const priceCells = document.querySelectorAll('[data-ns-test="price"]');
+let total = 0;
 
-const getSum = () => {
-    const priceElements = document.querySelectorAll('.price');
-    let total = 0;
+priceCells.forEach(cell => {
+  const value = parseFloat(cell.textContent);
+  if (!isNaN(value)) {
+    total += value;
+  }
+});
 
-    priceElements.forEach(el => {
-        const value = parseFloat(el.textContent);
-        if (!isNaN(value)) {
-            total += value;
-        }
-    });
+// Check if total row already exists (avoid duplicate)
+let existing = document.querySelector('[data-ns-test="grandTotal"]');
+if (existing) {
+  existing.textContent = total;
+} else {
+  const newRow = document.createElement('tr');
+  const totalCell = document.createElement('td');
 
-    // Remove any existing total row
-    const existingAns = document.getElementById('ans');
-    if (existingAns) {
-        existingAns.parentElement.remove();
-    }
+  totalCell.setAttribute('colspan', '2');
+  totalCell.setAttribute('data-ns-test', 'grandTotal');
+  totalCell.textContent = total;
 
-    // Create a new row and a cell
-    const newRow = document.createElement('tr');
-    const newCell = document.createElement('td');
-    newCell.id = "ans"; // Important for test to pass
-    newCell.colSpan = 2;
-    newCell.textContent = `Total Price: ${total}`;
-
-    newRow.appendChild(newCell);
-    document.querySelector('table').appendChild(newRow);
-};
-
-getSumBtn.addEventListener("click", getSum);
+  newRow.appendChild(totalCell);
+  document.querySelector('table').appendChild(newRow);
+}
