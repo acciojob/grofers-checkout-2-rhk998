@@ -1,25 +1,22 @@
-const priceCells = document.querySelectorAll('[data-ns-test="price"]');
-let total = 0;
+const priceElements = document.querySelectorAll('[data-ns-test="price"]');
 
-priceCells.forEach(cell => {
-  const value = parseFloat(cell.textContent);
+let total = 0;
+priceElements.forEach(el => {
+  const value = parseFloat(el.textContent);
   if (!isNaN(value)) {
     total += value;
   }
 });
 
-// Check if total row already exists (avoid duplicate)
-let existing = document.querySelector('[data-ns-test="grandTotal"]');
-if (existing) {
-  existing.textContent = total;
-} else {
-  const newRow = document.createElement('tr');
-  const totalCell = document.createElement('td');
+// Create new row
+const newRow = document.createElement('tr');
+const totalCell = document.createElement('td');
 
-  totalCell.setAttribute('colspan', '2');
-  totalCell.setAttribute('data-ns-test', 'grandTotal');
-  totalCell.textContent = total;
+// Span both columns, since it's a single cell in a row
+totalCell.setAttribute('colspan', '2');
+totalCell.setAttribute('data-ns-test', 'grandTotal');
+totalCell.textContent = total;
 
-  newRow.appendChild(totalCell);
-  document.querySelector('table').appendChild(newRow);
-}
+// Add the cell to row and row to the table
+newRow.appendChild(totalCell);
+document.querySelector('table').appendChild(newRow);
