@@ -1,28 +1,27 @@
-// Select all the elements that have the price
-const priceElements = document.querySelectorAll('[data-ns-test="prices"]');
+// Select all the price cells
+const priceElements = document.querySelectorAll('[data-ns-test="price"]');
 
 let total = 0;
 
-// Loop through the prices and add them to the total
-priceElements.forEach((priceElement) => {
-  const value = parseFloat(priceElement.innerText);
+// Loop through each price cell and sum the values
+priceElements.forEach((cell) => {
+  const value = parseFloat(cell.innerText);
   if (!isNaN(value)) {
     total += value;
   }
 });
 
-// Create a new table row for the grand total
+// Create a new row to display the grand total
 const newRow = document.createElement("tr");
 
-// Create a single cell that spans two columns
+// Create the total cell
 const totalCell = document.createElement("td");
 totalCell.setAttribute("data-ns-test", "grandTotal");
-totalCell.colSpan = 2; // Make it span across both columns
-totalCell.innerText = `Total: Rs ${total}`;
+totalCell.colSpan = 2; // Make it span two columns
+totalCell.innerText = total;
 
-// Append the cell to the row
+// Append the total cell to the row
 newRow.appendChild(totalCell);
 
 // Append the row to the table
-const table = document.querySelector("table");
-table.appendChild(newRow);
+document.querySelector("table").appendChild(newRow);
